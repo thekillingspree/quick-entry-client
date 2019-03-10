@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import '../styles/userauth.css';
+import { API_URL } from '../utils';
 import DialogActions from '@material-ui/core/DialogActions';
 
 class UserSignUp extends Component {
@@ -37,6 +39,8 @@ class UserSignUp extends Component {
     handleSubmit(e) {
         e.preventDefault();
         this.setState({dialog: true});
+        const {fullname, username, email, password, tecid} = this.state;
+        
     }
 
     render() {
