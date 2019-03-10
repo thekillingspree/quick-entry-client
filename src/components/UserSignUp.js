@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios'
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -40,7 +41,17 @@ class UserSignUp extends Component {
         e.preventDefault();
         this.setState({dialog: true});
         const {fullname, username, email, password, tecid} = this.state;
-        
+        const userData = {
+            fullname,
+            username,
+            email,
+            password,
+            tecid
+        }
+        axios.post(`${API_URL}/users/signup`, userData).then((res) => {
+            console.log(res)
+            this.closeDialog();
+        }).catch((err) => console.log(err.response.data));
     }
 
     render() {
@@ -126,4 +137,4 @@ class UserSignUp extends Component {
     }
 }
 
-export default UserSignUp;
+export default connect()(UserSignUp);
