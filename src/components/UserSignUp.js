@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import '../styles/userauth.css';
+import DialogActions from '@material-ui/core/DialogActions';
 
 class UserSignUp extends Component {
 
@@ -8,25 +14,55 @@ class UserSignUp extends Component {
         fullname: "",
         email: "",
         password: "",
-        tecid: ""
+        tecid: "",
+        dialog: false,
+        error: null
     }
 
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.closeDialog = this.closeDialog.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(e) {
         this.setState({[e.target.name]: e.target.value});
     }
 
+    closeDialog () {
+        this.setState({dialog: false})
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        this.setState({dialog: true});
+    }
+
     render() {
-        const {fullname, username, email, password, tecid} = this.state;
+        const {fullname, username, email, password, tecid, dialog} = this.state;
         return (
             <div className="signup">
+                <Dialog
+                    open={dialog}
+                    onClose={this.closeDialog}
+                    disableBackdropClick
+                    disableEscapeKeyDown
+                >
+                <DialogTitle>Signing you up</DialogTitle>
+                <DialogContent>
+                    <DialogActions>
+                        <CircularProgress className="progress" 
+                        />
+                        <DialogContentText>
+                            Please Wait
+                        </DialogContentText>
+                    </DialogActions>
+                </DialogContent>
+                </Dialog>
                 <div className="container">
                     <h1 className="gradient-text">Join Quick-Entry</h1>
-                    <form className="signup-form">
+                    <form onSubmit={this.handleSubmit} className="signup-form">
                         <label>
                             Full Name
                             <input 
