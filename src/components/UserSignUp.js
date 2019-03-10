@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import '../styles/userauth.css';
 import { API_URL } from '../utils';
 import DialogActions from '@material-ui/core/DialogActions';
+import { addError } from '../store/actions/errors';
 
 class UserSignUp extends Component {
 
@@ -51,7 +52,11 @@ class UserSignUp extends Component {
         axios.post(`${API_URL}/users/signup`, userData).then((res) => {
             console.log(res)
             this.closeDialog();
-        }).catch((err) => console.log(err.response.data));
+        }).catch((err) => {
+            const msg = err.response.data.error;
+            this.props.dispatch(addError(msg))
+            this.closeDialog();
+        });
     }
 
     render() {

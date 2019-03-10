@@ -40,6 +40,12 @@ html, body {
     animation: hero-bg 2s ease infinite;
 }
 
+.button.accent {
+    color: #a18cd1;
+    background: #fff;
+    box-shadow: 0 3px 20px 2px rgba(255, 255, 255, 0.452);
+}
+
 label {
     margin-top: 10px;
 }
