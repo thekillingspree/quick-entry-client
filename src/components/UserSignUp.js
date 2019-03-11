@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios'
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import Snackbar from '@material-ui/core/Snackbar';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import '../styles/userauth.css';
-import { API_URL } from '../utils';
 import DialogActions from '@material-ui/core/DialogActions';
-import { addError } from '../store/actions/errors';
+import IconButton from '@material-ui/core/IconButton';
+import ErrorIcon from '@material-ui/icons/Error';
+import InfoIcon from '@material-ui/icons/Info';
+import red from '@material-ui/core/colors/red';
+import { signUpUser } from '../store/actions/user';
+import { authMapStateToProps } from '../utils';
 
 class UserSignUp extends Component {
 
@@ -49,36 +53,42 @@ class UserSignUp extends Component {
             password,
             tecid
         }
-        axios.post(`${API_URL}/users/signup`, userData).then((res) => {
-            console.log(res)
-            this.closeDialog();
-        }).catch((err) => {
-            const msg = err.response.data.error;
-            this.props.dispatch(addError(msg))
-            this.closeDialog();
+        this.props.dispatch(signUpUser(userData)).then(() => {
+            this.setState({dialog: false});
+        }).catch(() => {
+            this.setState({dialog: false, error: true});
         });
     }
 
     render() {
-        const {fullname, username, email, password, tecid, dialog} = this.state;
+        const {fullname, username, email, password, tecid, dialog, error} = this.state;
         return (
             <div className="signup">
+                <Snackbar 
+                    open={error}
+                    style={{backgroundColor: red[700] }}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right'
+                    }}
+                    message={<span>{this.props.error}</span>}
+                />
                 <Dialog
                     open={dialog}
                     onClose={this.closeDialog}
                     disableBackdropClick
                     disableEscapeKeyDown
                 >
-                <DialogTitle>Signing you up</DialogTitle>
-                <DialogContent>
-                    <DialogActions>
-                        <CircularProgress className="progress" 
-                        />
-                        <DialogContentText>
-                            Please Wait
-                        </DialogContentText>
-                    </DialogActions>
-                </DialogContent>
+                    <DialogTitle>Signing you up</DialogTitle>
+                    <DialogContent>
+                        <DialogActions>
+                            <CircularProgress className="progress" 
+                            />
+                            <DialogContentText>
+                                Please Wait
+                            </DialogContentText>
+                        </DialogActions>
+                    </DialogContent>
                 </Dialog>
                 <div className="container">
                     <h1 className="gradient-text">Join Quick-Entry</h1>
@@ -142,4 +152,6 @@ class UserSignUp extends Component {
     }
 }
 
-export default connect()(UserSignUp);
+
+
+export default connect(authMapStateToProps)(UserSignUp);
