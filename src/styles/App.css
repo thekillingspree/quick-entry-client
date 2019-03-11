@@ -69,8 +69,27 @@ input:focus {
 .gradient-text {
     background: linear-gradient(225deg, #9a81d4, #fcb4e8);
     background-clip: text;
-    background-size: 150% 150%;
-    animation: hero-bg 2s ease infinite;
+    background-size: 200% 200%;
+    animation: hero-bg 2.5s ease infinite;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+.snackbar-message {
+    display: flex;
+    align-items: center;
+}
+
+
+@media only screen and (max-width: 500px) {
+    label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .signup h1 {
+        text-align: center;
+        margin: 20px 0;
+    }
+} 

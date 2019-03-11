@@ -10,10 +10,11 @@ import '../styles/userauth.css';
 import DialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
+import CloseIcon from '@material-ui/icons/Close';
 import red from '@material-ui/core/colors/red';
 import { signUpUser } from '../store/actions/user';
 import { authMapStateToProps } from '../utils';
+import { SnackbarContent } from '@material-ui/core';
 
 class UserSignUp extends Component {
 
@@ -32,6 +33,7 @@ class UserSignUp extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.closeDialog = this.closeDialog.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     handleChange(e) {
@@ -40,6 +42,14 @@ class UserSignUp extends Component {
 
     closeDialog () {
         this.setState({dialog: false})
+    }
+
+    handleClose (event, reason) {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        this.setState({ error: false });
     }
 
     handleSubmit(e) {
@@ -66,13 +76,24 @@ class UserSignUp extends Component {
             <div className="signup">
                 <Snackbar 
                     open={error}
-                    style={{backgroundColor: red[700] }}
                     anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'right'
                     }}
-                    message={<span>{this.props.error}</span>}
-                />
+                    onClose={this.handleClose}>
+                    <SnackbarContent
+                        style={{backgroundColor: red[700] }}
+                        action={[
+                            <IconButton
+                            key="close"
+                            color="inherit"
+                            onClick={this.handleClose}>
+                                <CloseIcon />
+                            </IconButton>
+                        ]}
+                        message={<span className="snackbar-message"><ErrorIcon style={{marginRight: 10}}/>{this.props.error}</span>}
+                    />
+                </Snackbar>
                 <Dialog
                     open={dialog}
                     onClose={this.closeDialog}
