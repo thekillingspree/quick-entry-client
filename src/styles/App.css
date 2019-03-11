@@ -87,9 +87,4 @@ input:focus {
         flex-direction: column;
         align-items: center;
     }
-
-    .signup h1 {
-        text-align: center;
-        margin: 20px 0;
-    }
 } 
