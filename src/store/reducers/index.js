@@ -1,9 +1,16 @@
-import { combineReducers } from 'redux';
+import { persistCombineReducers } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import admin from './admin';
 import errors from './errors';
 import user from './user';
 
-const rootReducer = combineReducers({
+const persistConfig = {
+    key: 'quickentry-root',
+    blacklist: ['errors'],
+    storage
+};
+
+const rootReducer = persistCombineReducers(persistConfig, {
     admin,
     errors,
     user
