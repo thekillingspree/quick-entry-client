@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -180,6 +181,8 @@ class UserSignUp extends Component {
                             onChange={this.handleChange}/>
                         </label>
                         <button className="button">{secText}</button>
+                        {type === "signup" && <Link className="signup-link" to="/user/login">Already a Member? Login Here.</Link>}
+                        {type === "login" && <Link className="signup-link" to="/user/signup">Not Signed up yet? Signup Here.</Link>}
                     </form>
                 </div>
             </div>

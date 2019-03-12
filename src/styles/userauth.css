@@ -23,6 +23,11 @@
     margin-left: 0px;
 }
 
+.signup-link {
+    color: #9a81d4;
+    text-decoration: none;
+}
+
 @media only screen and (max-width: 500px) {
     .signup h1 {
         text-align: center;
