@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ErrorIcon from '@material-ui/icons/Error';
 import CloseIcon from '@material-ui/icons/Close';
 import red from '@material-ui/core/colors/red';
-import { signUpUser } from '../store/actions/user';
+import { signUpUser, signInUser } from '../store/actions/user';
 import { authMapStateToProps } from '../utils';
 import { SnackbarContent } from '@material-ui/core';
 
@@ -56,22 +56,36 @@ class UserSignUp extends Component {
         e.preventDefault();
         this.setState({dialog: true});
         const {fullname, username, email, password, tecid} = this.state;
-        const userData = {
-            fullname,
-            username,
-            email,
-            password,
-            tecid
+        const {type} = this.props;
+        if (type === 'signup') {
+            const userData = {
+                fullname,
+                username,
+                email,
+                password,
+                tecid
+            }
+            this.props.dispatch(signUpUser(userData)).then(() => {
+                this.setState({dialog: false});
+            }).catch(() => {
+                this.setState({dialog: false, error: true});
+            });
+        } else {
+            const userData = {
+                username,
+                password
+            }
+            this.props.dispatch(signInUser(userData)).then(() => {
+                this.setState({dialog: false});
+            }).catch(() => {
+                this.setState({dialog: false, error: true});
+            });
         }
-        this.props.dispatch(signUpUser(userData)).then(() => {
-            this.setState({dialog: false});
-        }).catch(() => {
-            this.setState({dialog: false, error: true});
-        });
     }
 
     render() {
         const {fullname, username, email, password, tecid, dialog, error} = this.state;
+        const { type, secText, greeting, dialogText} = this.props;
         return (
             <div className="signup">
                 <Snackbar 
@@ -100,7 +114,7 @@ class UserSignUp extends Component {
                     disableBackdropClick
                     disableEscapeKeyDown
                 >
-                    <DialogTitle>Signing you up</DialogTitle>
+                    <DialogTitle>{dialogText}</DialogTitle>
                     <DialogContent>
                         <DialogActions>
                             <CircularProgress className="progress" 
@@ -112,9 +126,9 @@ class UserSignUp extends Component {
                     </DialogContent>
                 </Dialog>
                 <div className="container">
-                    <h1 className="gradient-text">Join Quick-Entry</h1>
+                    <h1 className="gradient-text">{greeting}</h1>
                     <form onSubmit={this.handleSubmit} className="signup-form">
-                        <label>
+                        {type === "signup" && <label>
                             Full Name
                             <input 
                             type="text" 
@@ -123,7 +137,7 @@ class UserSignUp extends Component {
                             value={fullname}
                             required
                             onChange={this.handleChange}/>
-                        </label>
+                        </label>}
                         <label>
                             Username
                             <input 
@@ -134,7 +148,7 @@ class UserSignUp extends Component {
                             required
                             onChange={this.handleChange}/>
                         </label>
-                        <label>
+                        {type === "signup" && <label>
                             Email
                             <input 
                             type="email" 
@@ -143,8 +157,8 @@ class UserSignUp extends Component {
                             required
                             placeholder="john@doe.com"
                             onChange={this.handleChange}/>
-                        </label>
-                        <label>
+                        </label>}
+                        {type === "signup" && <label>
                             TEC ID
                             <input 
                             type="text" 
@@ -153,7 +167,7 @@ class UserSignUp extends Component {
                             required
                             placeholder="Your ID, for example: TU3F1718076"
                             onChange={this.handleChange}/>
-                        </label>
+                        </label>}
                         <label>
                             Password
                             <input 
@@ -165,7 +179,7 @@ class UserSignUp extends Component {
                             autoComplete="new-password"
                             onChange={this.handleChange}/>
                         </label>
-                        <button className="button">Submit</button>
+                        <button className="button">{secText}</button>
                     </form>
                 </div>
             </div>

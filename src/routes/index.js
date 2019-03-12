@@ -13,8 +13,24 @@ const AppRouter = () => (
             <Route path="/" exact component={Home} />
             <Route path="/admin/login" component={AdminLogin} />
             <Route path="/admin/signup" component={AdminSignUp} />
-            <Route path="/user/login" component={UserLogin} />
-            <Route path="/user/signup" component={UserSignUp} />
+            <Route path="/user/login" render={props => (
+                <UserSignUp
+                    type="login"
+                    secText="LOGIN"
+                    greeting="Welcome Back."
+                    dialogText="Logging In"
+                    {...props}
+                />
+            )} />
+            <Route path="/user/signup" render={props => (
+                <UserSignUp
+                    type="signup"
+                    secText="SIGN UP"
+                    dialogText="Signing you up"
+                    greeting="Join Quick-Entry"
+                    {...props}
+                />
+            )} />
             <Route component={FourOFour} />
         </Switch>
     </Router>
