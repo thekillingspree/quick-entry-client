@@ -20,6 +20,7 @@ html, body {
 .button {
     display: inline-block;
     border: none;
+    outline: none;
     background: linear-gradient(225deg, #a18cd1, #fbc2eb);
     box-shadow: 0 3px 14px 2px #fbc2eb7a;
     text-align: center;
