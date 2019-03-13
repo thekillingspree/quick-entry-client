@@ -13,7 +13,8 @@ import IconButton from '@material-ui/core/IconButton';
 import ErrorIcon from '@material-ui/icons/Error';
 import CloseIcon from '@material-ui/icons/Close';
 import red from '@material-ui/core/colors/red';
-import { signUpUser, signInUser } from '../store/actions/user';
+import { authUser } from '../store/actions/auth';
+import { USER_LOGIN, USER_SIGN_UP } from '../utils';
 import { authMapStateToProps } from '../utils';
 import { SnackbarContent } from '@material-ui/core';
 
@@ -55,33 +56,33 @@ class UserSignUp extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.setState({dialog: true});
+        this.setState({dialog: true, error: null});
         const {fullname, username, email, password, tecid} = this.state;
         const {type} = this.props;
+        let url;
+        let userData;
         if (type === 'signup') {
-            const userData = {
+            userData = {
                 fullname,
                 username,
                 email,
                 password,
                 tecid
             }
-            this.props.dispatch(signUpUser(userData)).then(() => {
-                this.setState({dialog: false});
-            }).catch(() => {
-                this.setState({dialog: false, error: true});
-            });
+            url = USER_SIGN_UP;
         } else {
-            const userData = {
+            userData = {
                 username,
                 password
             }
-            this.props.dispatch(signInUser(userData)).then(() => {
-                this.setState({dialog: false});
-            }).catch(() => {
-                this.setState({dialog: false, error: true});
-            });
+            url= USER_LOGIN;
         }
+
+        this.props.dispatch(authUser(userData, url)).then(() => {
+            this.setState({dialog: false});
+        }).catch(() => {
+            this.setState({dialog: false, error: true});
+        });
     }
 
     render() {
