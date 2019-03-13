@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import '../styles/fade.css';
 import Home from '../components/Home';
-import AdminLogin from '../components/AdminLogin';
 import AdminSignUp from '../components/AdminSignUp';
 import UserSignUp from '../components/UserSignUp';
 import FourOFour from '../components/FourOFour';
 import { authMapStateToProps } from '../utils';
 
-const Routes = ({location, isUserAuthenticated}) => {
+const Routes = ({location, isUserAuthenticated, isAdminAuthenticated}) => {
     return (
         <div>
             <TransitionGroup>
@@ -20,8 +19,28 @@ const Routes = ({location, isUserAuthenticated}) => {
                     key={location.key}>
                     <Switch location={location}>
                         <Route path="/" exact component={Home} />
-                        <Route path="/admin/login" component={AdminLogin} />
-                        <Route path="/admin/signup" component={AdminSignUp} />
+                        <Route path="/admin/login" render={props => (
+                            !isAdminAuthenticated ?
+                            <AdminSignUp
+                                type="login"
+                                secText="LOGIN"
+                                greeting="Welcome Back."
+                                dialogText="Logging In"
+                                {...props}
+                            /> :
+                            <Redirect to="/" />
+                        )}/>
+                        <Route path="/admin/signup" render={props => (
+                            !isAdminAuthenticated ?
+                            <AdminSignUp
+                                type="signup"
+                                secText="SIGN UP"
+                                greeting="Admin Sign Up"
+                                dialogText="Signing you up"
+                                {...props}
+                            /> :
+                            <Redirect to="/" />
+                        )}/>
                         <Route path="/user/login" render={props => (
                             !isUserAuthenticated ?
                             <UserSignUp
