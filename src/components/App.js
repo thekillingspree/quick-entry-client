@@ -5,8 +5,15 @@ import '../styles/App.css';
 import { configStore } from '../store';
 import AppRouter from '../routes';
 import { PersistGate } from 'redux-persist/integration/react';
+import { setAuthTokens } from '../utils';
 
 const { store, persistor} = configStore();
+
+console.log('store', store.getState())
+if (localStorage.getItem('auth')) {
+	console.log('tok',localStorage.getItem('auth'))
+	setAuthTokens(localStorage.getItem('auth'))
+}
 
 class App extends Component {
 	render() {

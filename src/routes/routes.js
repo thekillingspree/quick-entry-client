@@ -8,8 +8,9 @@ import AdminSignUp from '../components/AdminSignUp';
 import UserSignUp from '../components/UserSignUp';
 import FourOFour from '../components/FourOFour';
 import { authMapStateToProps } from '../utils';
+import AdminDashboard from '../components/AdminDashboard';
 
-const Routes = ({location, isUserAuthenticated, isAdminAuthenticated}) => {
+const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, user}) => {
     return (
         <div>
             <TransitionGroup>
@@ -28,7 +29,7 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated}) => {
                                 dialogText="Logging In"
                                 {...props}
                             /> :
-                            <Redirect to="/" />
+                            <Redirect to="/admin/dashboard" />
                         )}/>
                         <Route path="/admin/signup" render={props => (
                             !isAdminAuthenticated ?
@@ -39,7 +40,7 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated}) => {
                                 dialogText="Signing you up"
                                 {...props}
                             /> :
-                            <Redirect to="/" />
+                            <Redirect to="/admin/dashboard" />
                         )}/>
                         <Route path="/user/login" render={props => (
                             !isUserAuthenticated ?
@@ -60,6 +61,13 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated}) => {
                                 greeting="Join Quick-Entry"
                                 {...props}
                             /> : <Redirect to="/" />
+                        )} />
+                        <Route path="/admin/dashboard" render={props => (
+                            isAdminAuthenticated ?
+                            <AdminDashboard
+                                admin={admin}
+                            /> :
+                            <Redirect to="/admin/login" />
                         )} />
                         <Route component={FourOFour} />
                     </Switch>

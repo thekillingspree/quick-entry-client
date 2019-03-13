@@ -17,6 +17,10 @@ html, body {
     color: #a18cd1 !important;
 }
 
+.light-text {
+    color: #b3b3b3;
+}
+
 .button {
     display: inline-block;
     border: none;

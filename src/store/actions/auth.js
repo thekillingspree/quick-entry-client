@@ -1,5 +1,5 @@
 import { SET_CURRENT_USER, SET_CURRENT_ADMIN } from '../types';
-import { apiCall } from '../../utils';
+import { apiCall, setAuthTokens } from '../../utils';
 import { addError, removeError } from './errors';
 
 export const setCurrentUser = user => {
@@ -22,10 +22,14 @@ export const authUser = (user, url) => {
         return new Promise ((resolve, reject) => {
             apiCall('post', user, url).then((user) => {
                 console.log(user)
-                if (isAdmin)
+                localStorage.setItem('auth', user.token);
+                setAuthTokens(user.token);
+                if (isAdmin) {
                     dispatch(setCurrentAdmin(user))
-                else 
+                } else { 
                     dispatch(setCurrentUser(user))
+                }
+                console.log(user.token);
                 dispatch(removeError())
                 resolve();
             }).catch((msg) => {
