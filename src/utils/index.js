@@ -14,7 +14,8 @@ export const ADMIN_NEW_ROOM = '/rooms/new';
 export const authMapStateToProps = state => (
     {
         error: state.errors.message,
-        isUserAuthenticated: state.user.isAuthenticated
+        isUserAuthenticated: state.user.isAuthenticated,
+        isAdminAuthenticated: state.admin.isAuthenticated
     }
 )
 
