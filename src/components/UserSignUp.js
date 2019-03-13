@@ -6,6 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import '../styles/userauth.css';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -16,7 +17,6 @@ import red from '@material-ui/core/colors/red';
 import { authUser } from '../store/actions/auth';
 import { USER_LOGIN, USER_SIGN_UP } from '../utils';
 import { authMapStateToProps } from '../utils';
-import { SnackbarContent } from '@material-ui/core';
 
 class UserSignUp extends Component {
 
@@ -147,6 +147,7 @@ class UserSignUp extends Component {
                             name="username" 
                             value={username}
                             placeholder="johndoe123"
+                            autoComplete="username"
                             required
                             onChange={this.handleChange}/>
                         </label>
