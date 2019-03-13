@@ -14,7 +14,8 @@ import ErrorIcon from '@material-ui/icons/Error';
 import CloseIcon from '@material-ui/icons/Close';
 import red from '@material-ui/core/colors/red';
 import '../styles/userauth.css';
-import { authMapStateToProps } from '../utils';
+import { authMapStateToProps, ADMIN_SIGN_UP, ADMIN_LOGIN } from '../utils';
+import { authUser } from '../store/actions/auth';
 
 class AdminSignUp extends Component {
 
@@ -53,6 +54,31 @@ class AdminSignUp extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        this.setState({dialog: true, error: null});
+        const {fullname, username, email, password} = this.state;
+        const {type} = this.props;
+        let url, admin;
+        if (type === 'signup') {
+            admin = {
+                fname: fullname, 
+                username,
+                email, 
+                password
+            }
+            url = ADMIN_SIGN_UP;
+        } else {
+            admin = {
+                username,
+                password
+            }
+            url = ADMIN_LOGIN;
+        }
+
+        this.props.dispatch(authUser(admin, url)).then(() => {
+            this.setState({dialog: true});
+        }).catch(() => {
+            this.setState({dialog: false, error: true})
+        });
     }
 
     render() {
