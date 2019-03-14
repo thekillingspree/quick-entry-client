@@ -13,12 +13,33 @@ html, body {
     max-width: 1366px;
 }
 
+.center.all {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+}
+
+.center.horizontal {
+    display: flex;
+    justify-content: center;
+}
+
 .progress {
     color: #a18cd1 !important;
 }
 
 .light-text {
     color: #b3b3b3;
+    font-weight: normal;
+}
+
+.center-text {
+    text-align: center;
 }
 
 .button {
@@ -70,6 +91,20 @@ input:focus {
     border: 2px solid #9a81d4;
 }
 
+.gradient-bg {
+    background: linear-gradient(225deg, #a18cd1, #fbc2eb);
+    color: #fff;
+}
+
+.gradient-bg.shadow {
+    transition: 0.3s all ease-in-out;
+    box-shadow: 0 3px 14px 2px #fbc2eb7a;
+}
+
+.gradient-bg.shadow:hover {
+    cursor: pointer;
+    box-shadow: 0 7px 14px 2px #fbc2eb9d;
+}
 
 .gradient-text {
     background: linear-gradient(225deg, #9a81d4, #fcb4e8);

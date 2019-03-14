@@ -17,7 +17,7 @@ export default (state=DEF_STATE, action) => {
             return {
                 ...state,
                 rooms: action.rooms
-            }
+            };
         default:
             return state;
     }

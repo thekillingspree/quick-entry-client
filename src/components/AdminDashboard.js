@@ -3,20 +3,22 @@ import { connect } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import '../styles/dashboard.css';
 import Menu from '@material-ui/icons/Menu';
+import AddIcon from '@material-ui/icons/AddCircleOutline';
 import { getRoomsApi } from '../store/actions/admin';
 import { ADMIN_GET_ROOMS, authMapStateToProps } from '../utils';
+import RoomDisplay from './RoomDisplay';
 
 class AdminDashboard extends Component {
 
     componentDidMount() {
-        const { result, token } = this.props.admin;
-        const { email, fname, username, _id } = result;
+        const { _id } = this.props.admin.admin;
         this.props.dispatch(getRoomsApi(`${ADMIN_GET_ROOMS}?id=${_id['$oid']}`));
     }
 
     render() {
-        const { result, token } = this.props.admin;
-        const { email, fname, username, _id } = result;
+        const { email, fname, username} = this.props.admin.admin;
+        const {rooms} = this.props.admin;
+        console.log(rooms);
         return (
             <div className="dashboard">
                 <nav> 
@@ -29,6 +31,19 @@ class AdminDashboard extends Component {
                         <p className="light-text">{`@${username}`}</p>
                     </div>
                 </nav>
+                <div className="rooms">
+                    <div className="rooms-wrapper">
+                        { rooms.length > 0 &&
+                        rooms.map((room, i) => (
+                                <RoomDisplay room={room} key={i}/>
+                        ))
+                        }
+                        <div className="room-display create center all light-text">
+                            <h1 className="light-text">Create a new room</h1>
+                            <AddIcon style={{fontSize: 45, marginTop: 20}} />
+                        </div>
+                    </div>    
+                </div>
             </div>
         )
     }

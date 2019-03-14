@@ -1,5 +1,4 @@
 .dashboard {
-    display: flex;
     height: 100vh;
     width: 100%;
 }
@@ -9,4 +8,42 @@
     height: 10vh;
     display: flex;
     align-items: center;
+}
+
+.rooms-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: wrap;
+    width: 100%;
+    margin: 0 40px;
+}
+
+.room-display {
+    padding: 30px;
+    margin: 30px;
+    width: 300px;
+    height: 200px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.room-display.create {
+    border: 2px solid #e4e4e4;
+    transition: 0.3s all ease;
+}
+.room-display.create:hover {
+    cursor: pointer;
+    border: 2px solid #afafaf; /* I know it's lit af */
+    color: #afafaf;
+}
+
+.room-display h1 {
+    font-size: 1.4rem;
+}
+
+.room-display .bottom {
+    display: flex;
+    justify-content: space-between;
 }
