@@ -74,9 +74,7 @@ class AdminSignUp extends Component {
             url = ADMIN_LOGIN;
         }
 
-        this.props.dispatch(authUser(admin, url)).then(() => {
-            
-        }).catch(() => {
+        this.props.dispatch(authUser(admin, url)).then().catch(() => {
             this.setState({dialog: false, error: true})
         });
     }
