@@ -34,7 +34,7 @@ export const createNewRoom = room => {
                 resolve();
             }).catch((err) => {
                 dispatch(addError(err))
-                reject();
+                reject(err);
             });
         });
     }

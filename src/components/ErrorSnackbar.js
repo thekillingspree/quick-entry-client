@@ -35,7 +35,7 @@ class ErrorSnackbar extends Component {
                     vertical: 'bottom',
                     horizontal: 'right'
                 }}
-                onClose={this.handleClose}>
+                onClose={this.props.handleClose}>
                 <SnackbarContent
                     style={{backgroundColor: red[700] }}
                     action={[

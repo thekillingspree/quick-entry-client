@@ -5,11 +5,18 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import IconButton from '@material-ui/core/IconButton';
+import ErrorIcon from '@material-ui/icons/Error';
+import CloseIcon from '@material-ui/icons/Close';
+import red from '@material-ui/core/colors/red';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import '../styles/userauth.css';
 import ErrorSnackbar from './ErrorSnackbar';
 import { createNewRoom } from '../store/actions/admin';
+import { errorMSP } from '../utils';
 class NewRoom extends Component {
 
     state = {
@@ -24,17 +31,26 @@ class NewRoom extends Component {
         super(props)
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     handleChange(e) {
         this.setState({[e.target.name]: e.target.value});
     }
 
+    handleClose() {
+        this.setState({error: null})
+    }
+
     handleSubmit(e) {
         e.preventDefault();
-        this.setState({error: null})
         let {name, roomnumber, capacity} = this.state;
-        capacity = parseInt(capacity);
+        try {
+            capacity = parseInt(capacity);
+            roomnumber = parseInt(roomnumber);
+        } catch (e) {
+            return this.setState({error: "Please provide proper values."})
+        }
         if (capacity > 15000) {
             return this.setState({error: "We don't support stadiums yet 😅"})
         } else if (capacity < 4) {
@@ -47,6 +63,7 @@ class NewRoom extends Component {
         this.props.dispatch(createNewRoom(room)).then((result) => {
             this.props.history.push("/admin/dashboard");
         }).catch(error => {
+            console.log(error);
             this.setState({dialog: false, error})
         });
     }
@@ -56,6 +73,26 @@ class NewRoom extends Component {
         const {name, roomnumber, capacity, dialog, error} = this.state;
         return (
         <div className="signup">
+            <Snackbar 
+                    open={error}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right'
+                    }}
+                    onClose={this.handleClose}>
+                    <SnackbarContent
+                        style={{backgroundColor: red[700] }}
+                        action={[
+                            <IconButton
+                            key="close"
+                            color="inherit"
+                            onClick={this.handleClose}>
+                                <CloseIcon />
+                            </IconButton>
+                        ]}
+                        message={<span className="snackbar-message"><ErrorIcon style={{marginRight: 10}}/>{error}</span>}
+                    />
+            </Snackbar>
             <Dialog
                 open={dialog}
                 onClose={this.closeDialog}
@@ -74,7 +111,6 @@ class NewRoom extends Component {
                 </DialogContent>
             </Dialog>
         <div className="container">
-            {!!error && <ErrorSnackbar open message={error} />}
             <h1 className="gradient-text">Create a new room.</h1>
             <form onSubmit={this.handleSubmit} className="signup-form">
                 <label>
@@ -90,9 +126,9 @@ class NewRoom extends Component {
                 <label>
                 Room Number
                 <input 
-                type="text" 
+                type="number" 
                 name="roomnumber" 
-                placeholder="301, 40A, B20"
+                placeholder="A unique room number"
                 value={roomnumber}
                 required
                 onChange={this.handleChange}/>

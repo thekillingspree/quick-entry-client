@@ -103,7 +103,7 @@ input:focus {
 
 .gradient-bg.shadow:hover {
     cursor: pointer;
-    box-shadow: 0 7px 14px 2px #fbc2eb9d;
+    box-shadow: 0 7px 14px 2px #fbc2ebbb;
 }
 
 .gradient-text {

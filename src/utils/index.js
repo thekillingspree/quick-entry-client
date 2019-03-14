@@ -21,6 +21,10 @@ export const authMapStateToProps = state => (
     }
 )
 
+export const errorMSP = state => ({
+    error: state.errors.message
+})
+
 export const setAuthTokens = token => {
     if (token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

@@ -14,15 +14,15 @@
     display: flex;
     flex-wrap: wrap;
     flex-flow: wrap;
-    width: 100%;
     margin: 0 40px;
+    align-items: center;
 }
 
 .room-display {
     padding: 30px;
     margin: 30px;
     width: 300px;
-    height: 200px;
+    height: 150px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -37,7 +37,7 @@
 .room-display.create:hover {
     cursor: pointer;
     border: 2px solid #afafaf; /* I know it's lit af */
-    color: #afafaf;
+    color: #888888;
 }
 
 .room-display h1 {
