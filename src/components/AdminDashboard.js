@@ -38,8 +38,8 @@ class AdminDashboard extends Component {
                                 <RoomDisplay room={room} key={i}/>
                         ))
                         }
-                        <div className="room-display create center all light-text">
-                            <h1 className="light-text">Create a new room</h1>
+                        <div className="room-display create center all">
+                            <h1 className="">Create a new room</h1>
                             <AddIcon style={{fontSize: 45, marginTop: 20}} />
                         </div>
                     </div>    

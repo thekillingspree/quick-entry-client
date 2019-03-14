@@ -10,8 +10,9 @@ export default (state=DEF_STATE, action) => {
     switch(action.type) {
         case SET_CURRENT_ADMIN:
             return {
+                ...state,
                 isAuthenticated: !!Object.keys(action.admin).length,
-                admin: action.admin
+                admin: action.admin,
             };
         case GET_ADMIN_ROOMS:
             return {

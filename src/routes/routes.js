@@ -63,11 +63,11 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, use
                             /> : <Redirect to="/" />
                         )} />
                         <Route path="/admin/dashboard" render={props => (
-                            isAdminAuthenticated ?
+                            isAdminAuthenticated && !isUserAuthenticated?
                             <AdminDashboard
                                 admin={admin}
                             /> :
-                            <Redirect to="/admin/login" />
+                            <Redirect to={{pathname: "/"}}  />
                         )} />
                         <Route component={FourOFour} />
                     </Switch>
