@@ -9,6 +9,7 @@ import UserSignUp from '../components/UserSignUp';
 import FourOFour from '../components/FourOFour';
 import { authMapStateToProps } from '../utils';
 import AdminDashboard from '../components/AdminDashboard';
+import NewRoom from '../components/NewRoom';
 
 const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, user}) => {
     return (
@@ -65,6 +66,13 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, use
                         <Route path="/admin/dashboard" render={props => (
                             isAdminAuthenticated && !isUserAuthenticated?
                             <AdminDashboard
+                                admin={admin}
+                            /> :
+                            <Redirect to={{pathname: "/"}}  />
+                        )} />
+                        <Route path="/admin/new" render={props => (
+                            isAdminAuthenticated && !isUserAuthenticated?
+                            <NewRoom
                                 admin={admin}
                             /> :
                             <Redirect to={{pathname: "/"}}  />

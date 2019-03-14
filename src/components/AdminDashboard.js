@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import '../styles/dashboard.css';
 import Menu from '@material-ui/icons/Menu';
@@ -17,6 +18,7 @@ class AdminDashboard extends Component {
 
     render() {
         const { email, fname, username} = this.props.admin.admin;
+        const {history} = this.props;
         const {rooms} = this.props.admin;
         console.log(rooms);
         return (
@@ -38,7 +40,7 @@ class AdminDashboard extends Component {
                                 <RoomDisplay room={room} key={i}/>
                         ))
                         }
-                        <div className="room-display create center all">
+                        <div className="room-display create center all" onClick={() => history.push("/admin/new")}>
                             <h1 className="">Create a new room</h1>
                             <AddIcon style={{fontSize: 45, marginTop: 20}} />
                         </div>
@@ -49,4 +51,4 @@ class AdminDashboard extends Component {
     }
 }
 
-export default connect(authMapStateToProps)(AdminDashboard)
+export default withRouter(connect(authMapStateToProps)(AdminDashboard))
