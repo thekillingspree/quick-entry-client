@@ -24,6 +24,10 @@ export const authUser = (user, url) => {
                 console.log(user)
                 localStorage.setItem('auth', user.token);
                 setAuthTokens(user.token);
+                user = {
+                    ...user.result,
+                    token: user.token
+                }
                 if (isAdmin) {
                     dispatch(setCurrentAdmin(user))
                 } else { 
