@@ -17,7 +17,7 @@ export const authMapStateToProps = state => (
         isUserAuthenticated: state.user.isAuthenticated,
         isAdminAuthenticated: state.admin.isAuthenticated,
         user: state.user.user,
-        admin: state.admin.admin
+        admin: state.admin
     }
 )
 
