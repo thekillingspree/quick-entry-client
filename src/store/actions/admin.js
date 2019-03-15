@@ -43,7 +43,7 @@ export const createNewRoom = room => {
 export const getRoomDetails = (uid, rid) => {
     return dispatch => {
         return new Promise((resolve, reject) => {
-            apiCall('post', null, `${ADMIN_ROOM_INFO}?id=${uid}&rid=${rid}`).then((room) => {
+            apiCall('get', null, `${ADMIN_ROOM_INFO}?id=${uid}&rid=${rid}`).then((room) => {
                 console.log(room);
                 dispatch(removeError())
                 resolve(room);
