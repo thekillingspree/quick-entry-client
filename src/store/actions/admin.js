@@ -1,5 +1,5 @@
 import { GET_ADMIN_ROOMS } from '../types';
-import { apiCall, ADMIN_NEW_ROOM } from '../../utils';
+import { apiCall, ADMIN_NEW_ROOM, ADMIN_ROOM_INFO } from '../../utils';
 import { addError, removeError } from './errors';
 
 export const getRooms = rooms => ({
@@ -32,6 +32,21 @@ export const createNewRoom = room => {
                 console.log(res);
                 dispatch(removeError())
                 resolve();
+            }).catch((err) => {
+                dispatch(addError(err))
+                reject(err);
+            });
+        });
+    }
+}
+
+export const getRoomDetails = (uid, rid) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            apiCall('post', null, `${ADMIN_ROOM_INFO}?id=${uid}&rid=${rid}`).then((room) => {
+                console.log(room);
+                dispatch(removeError())
+                resolve(room);
             }).catch((err) => {
                 dispatch(addError(err))
                 reject(err);
