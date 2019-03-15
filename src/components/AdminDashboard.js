@@ -17,10 +17,11 @@ class AdminDashboard extends Component {
     }
 
     render() {
-        const { email, fname, username} = this.props.admin.admin;
+        let { email, fname, username, _id} = this.props.admin.admin;
+        _id = _id['$oid'];
         const {history} = this.props;
         const {rooms} = this.props.admin;
-        console.log(rooms);
+        console.log(rooms, _id);
         return (
             <div className="dashboard">
                 <nav> 
@@ -37,7 +38,7 @@ class AdminDashboard extends Component {
                     <div className="rooms-wrapper">
                         { rooms.length > 0 &&
                         rooms.map((room, i) => (
-                                <RoomDisplay room={room} key={i}/>
+                                <RoomDisplay uid={_id} room={room} key={i}/>
                         ))
                         }
                         <div className="room-display create center all" onClick={() => history.push("/admin/new")}>
