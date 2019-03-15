@@ -10,6 +10,7 @@ export const ADMIN_LOGIN = '/admin/login';
 export const ADMIN_SIGN_UP = '/admin/signup';
 export const ADMIN_GET_ROOMS = '/admin/rooms'; //GET
 export const ADMIN_NEW_ROOM = '/rooms/new';
+export const ADMIN_ROOM_INFO = '/rooms/view'; //GET
 
 export const authMapStateToProps = state => (
     {
