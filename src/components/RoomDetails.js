@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import moment from 'moment';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MUIDataTable from "mui-datatables";
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { getRoomDetails } from '../store/actions/admin';
 import '../styles/details.css';
 
@@ -13,6 +14,34 @@ class RoomDetails extends Component {
         loading: true,
         data: [],
         room: null
+    }
+
+    getMUITheme () {
+        return createMuiTheme({
+            overrides: {
+                MUIDataTableToolbar: {
+                    icon: {
+                        '&:hover': {
+                            color: '#9a81d4'
+                        }
+                    },
+                    titleText: {
+                        fontFamily: 'Poppins',
+                        fontWeight: 'bold',
+                    }
+                },
+                MuiTable: {
+                    root: {
+                        fontFamily: 'Poppins'
+                    }
+                },
+                MuiTypography: {
+                    caption: {
+                        fontFamily: 'Poppins'
+                    }
+                }
+            }
+        })
     }
 
     componentDidMount() {
@@ -109,14 +138,14 @@ class RoomDetails extends Component {
                         { room.name }
                     </h1>
                     <div className="room-table">
-                        <MUIDataTable        
+                        <MuiThemeProvider theme={this.getMUITheme()}><MUIDataTable        
                             title='Entry List'
                             data={data}
                             columns={columns}
                             options={{...options, downloadOptions: {
                                 filename: `${room.name}-entrylist.csv`
                             }}}
-                        />
+                        /></MuiThemeProvider>
                     </div>
                 </div>}
                 {loading && <div className="center all loading">
