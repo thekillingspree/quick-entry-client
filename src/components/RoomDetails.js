@@ -21,6 +21,7 @@ class RoomDetails extends Component {
             console.log(room);
             room.entrylist.forEach(r => {
                 let {user, exittime, timestamp } = r;
+                let temp = timestamp;
                 const dateString = moment(timestamp).format('ddd, MMM Do YYYY');
                 let timeSpent = moment().diff(timestamp, 'minutes');
                 if (exittime) {
@@ -35,7 +36,7 @@ class RoomDetails extends Component {
                 timestamp = moment(timestamp).format('hh:mm A');
                 console.log()
                 this.setState(prevState => ({
-                    data: [...prevState.data, [user.fullname, user.tecid, dateString, timestamp, exittime, timeSpent]]
+                    data: [...prevState.data, [user.fullname, user.tecid, dateString, timestamp, exittime, timeSpent, temp]]
                 }));
             });
             this.setState({room, loading: false})
@@ -52,11 +53,17 @@ class RoomDetails extends Component {
             {
                 name: 'Name',
                 options: {
-                    filter: false
+                    filter: false,
+                    sort: false
+                
                 }
             },
             {
                 name: 'TEC ID',
+                options: {
+                    sort: false,
+                    filter: false
+                }
             },
             {
                 name: 'Date',
@@ -65,21 +72,32 @@ class RoomDetails extends Component {
                 name: 'Entry Time',
                 options: {
                     filter: false,
-                    sortDirection: 'desc'
+                    sort: false
                 }
             },
             {
                 name: 'Exit Time',
                 options: {
-                    filter: false
+                    filter: false,
+                    sort: false
                 }
             },
             {
                 name: 'Time Spent (mins)',
                 options: {
-                    filter: false
+                    filter: false,
+                    sort: false
                 }
             },
+            {
+                name: 'Temp',
+                options: {
+                    filter: false,
+                    download: false,
+                    display: 'excluded',
+                    sortDirection: 'desc'
+                }
+            }
         ]
         const options = {
             selectableRows: false,
