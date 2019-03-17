@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import '../styles/dashboard.css';
 import Menu from '@material-ui/icons/Menu';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { getRoomsApi } from '../store/actions/admin';
 import { ADMIN_GET_ROOMS, authMapStateToProps } from '../utils';
 import RoomDisplay from './RoomDisplay';
@@ -34,7 +35,7 @@ class AdminDashboard extends Component {
                         <p className="light-text">{`@${username}`}</p>
                     </div>
                 </nav>
-                <div className="rooms">
+                {rooms.length >= 0 && <div className="rooms">
                     <div className="rooms-wrapper">
                         { rooms.length > 0 &&
                         rooms.map((room, i) => (
@@ -46,7 +47,8 @@ class AdminDashboard extends Component {
                             <AddIcon style={{fontSize: 45, marginTop: 20}} />
                         </div>
                     </div>    
-                </div>
+                </div>}
+                {rooms.length < 0 && <div className="center all loading"><CircularProgress size={70} thickness={5} className="progress"/></div>}
             </div>
         )
     }
