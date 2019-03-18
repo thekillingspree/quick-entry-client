@@ -5,6 +5,8 @@ import QRCode from 'qrcode.react';
 import IconButton from '@material-ui/core/IconButton';
 import '../styles/dashboard.css';
 import MenuIcon from '@material-ui/icons/Menu';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
 import CircularProgress from '@material-ui/core/CircularProgress'; 
 import { authMapStateToProps } from '../utils';
@@ -13,7 +15,8 @@ class UserDashboard extends Component {
 
     state = {
         color: '#9a81d4',
-        size: 500
+        size: 300,
+        sizeAnchor: null
     }
 
     downloadImage = () => {
@@ -23,13 +26,25 @@ class UserDashboard extends Component {
         downloadLink.setAttribute('href', qrcanvas.toDataURL('image/png'));
     }
 
+    sizeSelect = e => {
+        this.setState({sizeAnchor: e.currentTarget});
+    }
+
+    sizeClose = () => {
+        this.setState({sizeAnchor: null});
+    }   
+
+    selectSize = size => {
+        this.setState({size, sizeAnchor: null});
+    }
+
     componentDidMount() {
         const { _id } = this.props.user;
     }
 
     render() {
         let {fullname, email, username, tecid, _id} = this.props.user;
-        const {color} = this.state;
+        const {color, size, sizeAnchor} = this.state;
         console.log(fullname)
         return (
             <div className="dashboard">
@@ -46,8 +61,20 @@ class UserDashboard extends Component {
                 <div className="center all vertical">
                     <h3>Your QRCode</h3>
                     <p>Use this QRCode to enter any room.</p>
+                    <div className="center all">
+                        <button className="button" onClick={this.sizeSelect}>Select Size</button>
+                        <Menu id="size"
+                            anchorEl={sizeAnchor}
+                            open={!!sizeAnchor}
+                            onClose={this.sizeClose}
+                        >
+                            <MenuItem onClick={() => this.selectSize(300)}>300x300</MenuItem>
+                            <MenuItem onClick={() => this.selectSize(500)}>500x500</MenuItem>
+                            <MenuItem onClick={() => this.selectSize(800)}>800x800</MenuItem>
+                        </Menu>
+                    </div>
                     <QRCode value={tecid}
-                    size={500}
+                    size={size}
                     bgColor={"#ffffff"}
                     fgColor={color}
                     level={"L"}
