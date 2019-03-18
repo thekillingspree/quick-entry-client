@@ -49,3 +49,11 @@
     display: flex;
     justify-content: space-between;
 }
+
+/* For Users */
+
+.color-box {
+    width: 20px;
+    height: 20px;
+    margin: 0 15px;
+}
