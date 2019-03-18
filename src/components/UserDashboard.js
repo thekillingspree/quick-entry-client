@@ -15,8 +15,9 @@ class UserDashboard extends Component {
 
     state = {
         color: '#9a81d4',
+        colorAnchor: null,
         size: 300,
-        sizeAnchor: null
+        sizeAnchor: null,
     }
 
     downloadImage = () => {
@@ -38,13 +39,25 @@ class UserDashboard extends Component {
         this.setState({size, sizeAnchor: null});
     }
 
+    colorClick = e => {
+        this.setState({colorAnchor: e.currentTarget});
+    }
+
+    colorClose = () => {
+        this.setState({colorAnchor: null});
+    }   
+
+    selectColor = color  => {
+        this.setState({color, colorAnchor: null});
+    }
+
     componentDidMount() {
         const { _id } = this.props.user;
     }
 
     render() {
         let {fullname, email, username, tecid, _id} = this.props.user;
-        const {color, size, sizeAnchor} = this.state;
+        const {color, size, sizeAnchor, colorAnchor} = this.state;
         console.log(fullname)
         return (
             <div className="dashboard">
@@ -62,7 +75,8 @@ class UserDashboard extends Component {
                     <h3>Your QRCode</h3>
                     <p>Use this QRCode to enter any room.</p>
                     <div className="center all">
-                        <button className="button" onClick={this.sizeSelect}>Select Size</button>
+                        <button className="button" onClick={this.sizeSelect}>Select Size</button>     
+                        <button className="button" onClick={this.colorClick}>Select Color</button>     
                         <Menu id="size"
                             anchorEl={sizeAnchor}
                             open={!!sizeAnchor}
@@ -71,6 +85,36 @@ class UserDashboard extends Component {
                             <MenuItem onClick={() => this.selectSize(300)}>300x300</MenuItem>
                             <MenuItem onClick={() => this.selectSize(500)}>500x500</MenuItem>
                             <MenuItem onClick={() => this.selectSize(800)}>800x800</MenuItem>
+                        </Menu>
+                        <Menu id="color"
+                            anchorEl={colorAnchor}
+                            open={!!colorAnchor}
+                            onClose={this.colorClose}
+                        >
+                            <MenuItem onClick={() => this.selectColor('#9a81d4')}>
+                                <span className="color-box" style={{background: '#9a81d4'}}></span>
+                                Quick-Entry
+                            </MenuItem>
+                            <MenuItem onClick={() => this.selectColor('#fc5c65')}>
+                                <span className="color-box" style={{background: '#fc5c65'}}></span>
+                                Fusion Red
+                            </MenuItem>
+                            <MenuItem onClick={() => this.selectColor('#26de81')}>
+                                <span className="color-box" style={{background: '#26de81'}}></span>
+                                Grass Green
+                            </MenuItem>
+                            <MenuItem onClick={() => this.selectColor('#3867d6')}>
+                                <span className="color-box" style={{background: '#3867d6'}}></span>
+                                Royal Blue
+                            </MenuItem>
+                            <MenuItem onClick={() => this.selectColor('#2d3436')}>
+                                <span className="color-box" style={{background: '#2d3436'}}></span>
+                                Dracula
+                            </MenuItem>
+                            <MenuItem onClick={() => this.selectColor('#e84393')}>
+                                <span className="color-box" style={{background: '#e84393'}}></span>
+                                Prunus Pink
+                            </MenuItem>
                         </Menu>
                     </div>
                     <QRCode value={tecid}
