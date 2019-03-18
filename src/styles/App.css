@@ -19,6 +19,10 @@ html, body {
     justify-content: center;
 }
 
+.vertical {
+    flex-direction: column;
+}
+
 .loading {
     position: fixed;
     top:0;
