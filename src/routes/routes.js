@@ -11,6 +11,7 @@ import { authMapStateToProps } from '../utils';
 import AdminDashboard from '../components/AdminDashboard';
 import NewRoom from '../components/NewRoom';
 import RoomDetails from '../components/RoomDetails';
+import UserDashboard from '../components/UserDashboard';
 
 const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, user}) => {
     return (
@@ -52,7 +53,7 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, use
                                 greeting="Welcome Back."
                                 dialogText="Logging In"
                                 {...props}
-                            /> : <Redirect to="/" />
+                            /> : <Redirect to="/user/dashboard" />
                         )} />
                         <Route path="/user/signup" render={props => (
                             !isUserAuthenticated ?
@@ -62,7 +63,14 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, use
                                 dialogText="Signing you up"
                                 greeting="Join Quick-Entry"
                                 {...props}
-                            /> : <Redirect to="/" />
+                            /> : <Redirect to="/user/dashboard" />
+                        )} />
+                        <Route path="/user/dashboard" render={props => (
+                            !isAdminAuthenticated && isUserAuthenticated?
+                            <UserDashboard
+                                user={user}
+                            /> :
+                            <Redirect to={{pathname: "/"}}  />
                         )} />
                         <Route path="/admin/dashboard" render={props => (
                             isAdminAuthenticated && !isUserAuthenticated?
