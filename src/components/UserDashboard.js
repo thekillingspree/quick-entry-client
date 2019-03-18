@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import QRCode from 'qrcode.react';
 import IconButton from '@material-ui/core/IconButton';
 import '../styles/dashboard.css';
-import Menu from '@material-ui/icons/Menu';
+import MenuIcon from '@material-ui/icons/Menu';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
 import CircularProgress from '@material-ui/core/CircularProgress'; 
 import { authMapStateToProps } from '../utils';
@@ -35,7 +35,7 @@ class UserDashboard extends Component {
             <div className="dashboard">
                 <nav>
                     <IconButton style={{marginRight: 20}}>
-                        <Menu />
+                        <MenuIcon />
                     </IconButton>
                     <div>
                         <h4 className="gradient-text">Hi,</h4>
