@@ -125,7 +125,7 @@ class UserDashboard extends Component {
                     id='qr'
                     includeMargin={true}
                     renderAs={"canvas"} />
-                    <a id="qr-download" download="Quick-Entry-QRCode" className="button" onClick={this.downloadImage}>Download</a>
+                    <a id="qr-download" download={`Quick-Entry-QRCode-${size}x${size}`} className="button" onClick={this.downloadImage}>Download</a>
                 </div>
             </div>
         )
