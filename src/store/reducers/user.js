@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER } from '../types';
+import { SET_CURRENT_USER, SET_USER_HISTORY } from '../types';
 
 const DEF_STATE = {
     isAuthenticated: false,
@@ -11,6 +11,14 @@ export default (state=DEF_STATE, action) => {
             return {
                 isAuthenticated: !!Object.keys(action.user).length,
                 user: action.user
+            };
+        case SET_USER_HISTORY:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    history: [...action.history]
+                }
             };
         default:
             return state;    

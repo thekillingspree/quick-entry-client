@@ -1,5 +1,6 @@
 export const ADD_ERROR = 'ADD_ERROR';
 export const REMOVE_ERROR = 'REMOVE ERROR';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const SET_USER_HISTORY = 'SET_USER_HISTORY';
 export const SET_CURRENT_ADMIN = 'SET_CURRENT_ADMIN';
 export const GET_ADMIN_ROOMS = 'GET_ADMIN_ROOMS';
