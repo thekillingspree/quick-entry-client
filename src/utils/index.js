@@ -4,7 +4,7 @@ export const API_URL = 'https://quick-entry.herokuapp.com/api';
 
 export const USER_LOGIN = '/users/login';
 export const USER_SIGN_UP = '/users/signup';
-export const PROFILE = '/users/profile'; //GET
+export const USER_PROFILE = '/users/profile'; //GET
 
 export const ADMIN_LOGIN = '/admin/login';
 export const ADMIN_SIGN_UP = '/admin/signup';
