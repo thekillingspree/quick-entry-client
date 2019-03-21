@@ -17,7 +17,7 @@ export const getHistory = uid => {
             apiCall('get', null, `${USER_PROFILE}?uid=${uid}`).then((user) => {
                 dispatch(setHistory(user.history));
                 removeError();
-                resolve();
+                resolve(user.history);
             }).catch((err) => {
                 addError(err)
                 reject(err);
