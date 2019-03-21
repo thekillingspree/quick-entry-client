@@ -4,9 +4,10 @@ import { withRouter } from 'react-router-dom';
 import moment from 'moment';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MUIDataTable from "mui-datatables";
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import { getRoomDetails } from '../store/actions/admin';
 import '../styles/details.css';
+import { getMUITheme } from '../utils';
 
 class RoomDetails extends Component {
 
@@ -14,34 +15,6 @@ class RoomDetails extends Component {
         loading: true,
         data: [],
         room: null
-    }
-
-    getMUITheme () {
-        return createMuiTheme({
-            overrides: {
-                MUIDataTableToolbar: {
-                    icon: {
-                        '&:hover': {
-                            color: '#9a81d4'
-                        }
-                    },
-                    titleText: {
-                        fontFamily: 'Poppins',
-                        fontWeight: 'bold',
-                    }
-                },
-                MuiTable: {
-                    root: {
-                        fontFamily: 'Poppins'
-                    }
-                },
-                MuiTypography: {
-                    caption: {
-                        fontFamily: 'Poppins'
-                    }
-                }
-            }
-        })
     }
 
     componentDidMount() {
@@ -138,7 +111,7 @@ class RoomDetails extends Component {
                         { room.name }
                     </h1>
                     <div className="room-table">
-                        <MuiThemeProvider theme={this.getMUITheme()}><MUIDataTable        
+                        <MuiThemeProvider theme={getMUITheme()}><MUIDataTable        
                             title='Entry List'
                             data={data}
                             columns={columns}

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { createMuiTheme } from '@material-ui/core/styles';
 
 export const API_URL = 'https://quick-entry.herokuapp.com/api';
 
@@ -44,4 +45,32 @@ export const apiCall = (method, data, url) => {
             reject(err.response.data.error);
         });
     });
+}
+
+export const getMUITheme = () => {
+    return createMuiTheme({
+        overrides: {
+            MUIDataTableToolbar: {
+                icon: {
+                    '&:hover': {
+                        color: '#9a81d4'
+                    }
+                },
+                titleText: {
+                    fontFamily: 'Poppins',
+                    fontWeight: 'bold',
+                }
+            },
+            MuiTable: {
+                root: {
+                    fontFamily: 'Poppins'
+                }
+            },
+            MuiTypography: {
+                caption: {
+                    fontFamily: 'Poppins'
+                }
+            }
+        }
+    })
 }
