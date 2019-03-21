@@ -28,13 +28,17 @@ class RoomDetails extends Component {
                 let timeSpent = moment().diff(timestamp, 'minutes');
                 if (exittime) {
                     timeSpent = moment(exittime).diff(timestamp, 'minutes');
+                    if (timeSpent <= 0) {
+                        timeSpent = 0;
+                    }
                     exittime = moment(exittime).format('hh:mm A');
                 } else {
-                    exittime = '-'
+                    if (timeSpent <=0)  {
+                        timeSpent = 'Just Entered';
+                    }
+                    exittime = '-';
                 }
-                if (timeSpent <= 0) {
-                    timeSpent = 'Just Entered'
-                }
+                
                 timestamp = moment(timestamp).format('hh:mm A');
                 console.log()
                 this.setState(prevState => ({
@@ -44,6 +48,7 @@ class RoomDetails extends Component {
             this.setState({room, loading: false})
         }).catch((err) => {
             console.log(err)
+            //TODO: HANDLE
             this.props.history.push('/')
         }); 
     }
