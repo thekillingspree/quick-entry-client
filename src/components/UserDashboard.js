@@ -1,26 +1,31 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import moment from 'moment';
 import QRCode from 'qrcode.react';
 import IconButton from '@material-ui/core/IconButton';
 import '../styles/dashboard.css';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
+import MUIDataTable from "mui-datatables";
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
 import CircularProgress from '@material-ui/core/CircularProgress'; 
-import { authMapStateToProps } from '../utils';
+import { authMapStateToProps, getMUITheme } from '../utils';
 import { getHistory } from '../store/actions/user';
 
 class UserDashboard extends Component {
 
     state = {
         color: '#9a81d4',
+        loading: true,
         colorAnchor: null,
         colorSelected: 0,
         size: 300,
         sizeSelected: 0,
         sizeAnchor: null,
+        historyData: []
     }
 
     downloadImage = () => {
@@ -56,13 +61,81 @@ class UserDashboard extends Component {
 
     componentDidMount() {
         const { _id } = this.props.user;
-        this.props.dispatch(getHistory(_id['$oid']));
+        this.props.dispatch(getHistory(_id['$oid'])).then((history) => {
+            history.forEach(entry => {
+                let {room_name, timestamp, exittime} = entry;
+                let temp = timestamp;
+                const dateString = moment(timestamp).format('ddd, MMM Do YYYY');
+                let timeSpent = moment().diff(timestamp, 'minutes');
+                if (exittime) {
+                    timeSpent = moment(exittime).diff(timestamp, 'minutes');
+                    if (timeSpent <= 0) {
+                        timeSpent = 0;
+                    }
+                    exittime = moment(exittime).format('hh:mm A');
+                } else {
+                    if (timeSpent <=0)  {
+                        timeSpent = 'Just Entered';
+                    }
+                    exittime = '-';
+                }
+                timestamp = moment(timestamp).format('hh:mm A');
+                console.log()
+                this.setState(prevState => ({
+                    historyData: [...prevState.historyData, [room_name, dateString, timestamp, exittime, timeSpent, temp]]
+                }));
+            });
+            this.setState({loading: false});
+        }).catch((err) => {
+            //TODO: Handle
+        });
     }
 
     render() {
-        let {fullname, email, username, tecid, _id} = this.props.user;
-        const {color, size, sizeAnchor, colorAnchor, colorSelected, sizeSelected} = this.state;
-        console.log(fullname)
+        let {fullname, email, username, tecid} = this.props.user;
+        const {color, size, sizeAnchor, colorAnchor, colorSelected, sizeSelected, historyData, loading} = this.state;
+        const columns = [
+            {
+                name: 'Room Name',
+                options: {
+                    filter: false,
+                    sort: false
+                }
+            },
+            {
+                name: 'Date'
+            },
+            {
+                name: 'Entry Time',
+                options: {
+                    filter: false,
+                    sort: false
+                }
+            },
+            {
+                name: 'Exit Time',
+                options: {
+                    filter: false,
+                    sort: false
+                }
+            },
+            {
+                name: 'Time Spent (mins)',
+                options: {
+                    filter: false,
+                    sort: false
+                }
+            },
+            {
+                name: 'Temp',
+                options: {
+                    filter: false,
+                    download: false,
+                    display: 'excluded',
+                    sortDirection: 'desc'
+                }
+            }
+        ]
         return (
             <div className="dashboard">
                 <nav>
@@ -75,6 +148,22 @@ class UserDashboard extends Component {
                         <p className="light-text">{`@${username}`}</p>
                     </div>
                 </nav>
+                {loading && <div className="center all loading"><CircularProgress size={70} thickness={5} className="progress"/></div> } 
+                {!loading && <div className="room-table">
+                    <MuiThemeProvider theme={getMUITheme()}>
+                        <MUIDataTable
+                            title="Previous Entries"
+                            columns={columns}
+                            data={historyData}
+                            options={{
+                                selectableRows: false,
+                                downloadOptions: {
+                                    filename: 'entry-history.csv'
+                                }
+                            }}
+                        />
+                    </MuiThemeProvider>
+                </div>  }
                 <div className="center all vertical">
                     <h3>Your QRCode</h3>
                     <p>Use this QRCode to enter any room.</p>
@@ -130,7 +219,7 @@ class UserDashboard extends Component {
                     includeMargin={true}
                     renderAs={"canvas"} />
                     <a id="qr-download" download={`Quick-Entry-QRCode-${size}x${size}`} className="button" onClick={this.downloadImage}>Download</a>
-                </div>
+                </div>  
             </div>
         )
     }
