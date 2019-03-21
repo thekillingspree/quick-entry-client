@@ -1,6 +1,10 @@
 import { apiCall, USER_PROFILE } from '../../utils';
-import { SET_USER_HISTORY } from '../types';
+import { SET_USER_HISTORY, LOGOUT_USER } from '../types';
 import { addError, removeError } from './errors';
+
+export const logoutUser = () => ({
+    type: LOGOUT_USER
+})
 
 export const setHistory = history => ({
     type: SET_USER_HISTORY,

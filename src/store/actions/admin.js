@@ -1,6 +1,11 @@
-import { GET_ADMIN_ROOMS } from '../types';
+import { GET_ADMIN_ROOMS, LOGOUT_ADMIN } from '../types';
 import { apiCall, ADMIN_NEW_ROOM, ADMIN_ROOM_INFO } from '../../utils';
 import { addError, removeError } from './errors';
+
+
+export const logoutAdmin = () => ({
+    type: LOGOUT_ADMIN
+})
 
 export const getRooms = rooms => ({
     type: GET_ADMIN_ROOMS,
