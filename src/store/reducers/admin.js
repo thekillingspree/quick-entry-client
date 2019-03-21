@@ -1,4 +1,4 @@
-import { SET_CURRENT_ADMIN, GET_ADMIN_ROOMS } from '../types';
+import { SET_CURRENT_ADMIN, GET_ADMIN_ROOMS, LOGOUT_ADMIN } from '../types';
 
 const DEF_STATE = {
     isAuthenticated: false,
@@ -19,6 +19,8 @@ export default (state=DEF_STATE, action) => {
                 ...state,
                 rooms: action.rooms
             };
+        case LOGOUT_ADMIN:
+            return DEF_STATE;
         default:
             return state;
     }
