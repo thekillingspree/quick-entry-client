@@ -58,7 +58,7 @@ export const getMUITheme = () => {
                 },
                 titleText: {
                     fontFamily: 'Poppins',
-                    fontWeight: 'bold',
+                    fontWeight: 'normal',
                 }
             },
             MuiTable: {
