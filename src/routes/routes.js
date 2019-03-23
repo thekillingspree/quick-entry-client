@@ -12,8 +12,9 @@ import AdminDashboard from '../components/AdminDashboard';
 import NewRoom from '../components/NewRoom';
 import RoomDetails from '../components/RoomDetails';
 import UserDashboard from '../components/UserDashboard';
+import { addError } from '../store/actions/errors';
 
-const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, user}) => {
+const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, user, dispatch}) => {
     return (
         <div>
             <TransitionGroup>
@@ -65,34 +66,46 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, use
                                 {...props}
                             /> : <Redirect to="/user/dashboard" />
                         )} />
-                        <Route path="/user/dashboard" render={props => (
+                        <Route path="/user/dashboard" render={props => {
+                            if (isAdminAuthenticated)
+                                dispatch(addError("You need to logout from the Admin account first."));
+                            return (
                             !isAdminAuthenticated && isUserAuthenticated?
                             <UserDashboard
                                 user={user}
                             /> :
                             <Redirect to={{pathname: "/"}}  />
-                        )} />
-                        <Route path="/admin/dashboard" render={props => (
+                        )}} />
+                        <Route path="/admin/dashboard" render={props => {
+                            if (isUserAuthenticated)
+                                dispatch(addError("You need to logout from the User account first."));
+                            return (
                             isAdminAuthenticated && !isUserAuthenticated?
                             <AdminDashboard
                                 admin={admin}
                             /> :
                             <Redirect to={{pathname: "/"}}  />
-                        )} />
-                        <Route path="/admin/new" render={props => (
+                        )}} />
+                        <Route path="/admin/new" render={props => {
+                            if (isUserAuthenticated)
+                                dispatch(addError("You need to logout from the User account first."));
+                            return(
                             isAdminAuthenticated && !isUserAuthenticated?
                             <NewRoom
                                 admin={admin}
                             /> :
-                            <Redirect to={{pathname: "/"}}  />
-                        )} />
-                        <Route path="/admin/:uid/room/:rid" render={props => (
+                            <Redirect to={{pathname: "/"}} />
+                        )}} />
+                        <Route path="/admin/:uid/room/:rid" render={props => {
+                            if (isUserAuthenticated)
+                                dispatch(addError("You need to logout from the User account first."));
+                            return(
                             isAdminAuthenticated && !isUserAuthenticated?
                             <RoomDetails
                                 admin={admin}
                             /> :
                             <Redirect to={{pathname: "/"}}  />
-                        )} />
+                        )}} />
                         <Route component={FourOFour} />
                     </Switch>
                 </CSSTransition>

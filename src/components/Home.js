@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import '../styles/home.css';
 import Open from '../img/open.svg';
 import ErrorSnackbar from './ErrorSnackbar';
+import { errorMSP } from '../utils';
 
 const Home = props => {
     return (
         <div className="home-hero">
-            {(props.location.state && props.location.state.message) && <ErrorSnackbar
+            {(props.error) && <ErrorSnackbar
                 open
-                message={props.location.state.message}
+                message={props.error}
             />}
             <div className="container" style={{margin: 0}}>
                 <h1>Quick-Entry</h1>    
@@ -21,4 +23,4 @@ const Home = props => {
     );
 }
 
-export default Home;
+export default connect(errorMSP)(Home);

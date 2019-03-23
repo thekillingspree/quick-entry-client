@@ -30,8 +30,8 @@
 }
 
 .room-display.create {
-    border: 2px solid #e4e4e4;
-    color: #e4e4e4;
+    border: 2px solid #cdcdcd;
+    color: #cdcdcd;
     transition: 0.3s all ease;
 }
 .room-display.create:hover {
