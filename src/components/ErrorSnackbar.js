@@ -19,7 +19,9 @@ class ErrorSnackbar extends Component {
     }
 
     componentWillUnmount() {
-        this.props.dispatch(removeError());
+        setTimeout(() => {
+            this.props.dispatch(removeError());
+        }, 3000);
     }
 
     componentDidMount() {
