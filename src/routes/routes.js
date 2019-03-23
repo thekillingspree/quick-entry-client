@@ -24,8 +24,11 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, use
                     key={location.key}>
                     <Switch location={location}>
                         <Route path="/" exact component={Home} />
-                        <Route path="/admin/login" render={props => (
-                            !isAdminAuthenticated ?
+                        <Route path="/admin/login" render={props => {
+                            if (isUserAuthenticated) 
+                                dispatch(addError("You need to logout from the User account first."));
+                            return (
+                            !isAdminAuthenticated && !isUserAuthenticated ?
                             <AdminSignUp
                                 type="login"
                                 secText="LOGIN"
@@ -34,9 +37,12 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, use
                                 {...props}
                             /> :
                             <Redirect to="/admin/dashboard" />
-                        )}/>
-                        <Route path="/admin/signup" render={props => (
-                            !isAdminAuthenticated ?
+                        )}}/>
+                        <Route path="/admin/signup" render={props => {
+                            if (isUserAuthenticated) 
+                                dispatch(addError("You need to logout from the User account first."));
+                            return (
+                            !isAdminAuthenticated && !isUserAuthenticated ?
                             <AdminSignUp
                                 type="signup"
                                 secText="SIGN UP"
@@ -45,9 +51,12 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, use
                                 {...props}
                             /> :
                             <Redirect to="/admin/dashboard" />
-                        )}/>
-                        <Route path="/user/login" render={props => (
-                            !isUserAuthenticated ?
+                        )}}/>
+                        <Route path="/user/login" render={props => {
+                            if (isAdminAuthenticated) 
+                                dispatch(addError("You need to logout from the Admin account first."));
+                            return (
+                            !isUserAuthenticated && !isAdminAuthenticated ?
                             <UserSignUp
                                 type="login"
                                 secText="LOGIN"
@@ -55,9 +64,12 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, use
                                 dialogText="Logging In"
                                 {...props}
                             /> : <Redirect to="/user/dashboard" />
-                        )} />
-                        <Route path="/user/signup" render={props => (
-                            !isUserAuthenticated ?
+                        )}} />
+                        <Route path="/user/signup" render={props => {
+                            if (isAdminAuthenticated) 
+                                dispatch(addError("You need to logout from the Admin account first."));
+                            return (
+                            !isUserAuthenticated && !isAdminAuthenticated ?
                             <UserSignUp
                                 type="signup"
                                 secText="SIGN UP"
@@ -65,7 +77,7 @@ const Routes = ({location, isUserAuthenticated, isAdminAuthenticated, admin, use
                                 greeting="Join Quick-Entry"
                                 {...props}
                             /> : <Redirect to="/user/dashboard" />
-                        )} />
+                        )}} />
                         <Route path="/user/dashboard" render={props => {
                             if (isAdminAuthenticated)
                                 dispatch(addError("You need to logout from the Admin account first."));
