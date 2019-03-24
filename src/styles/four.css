@@ -1,0 +1,15 @@
+.four {
+    font-size: 20rem;
+}
+
+@media only screen and (max-width: 1000px) {
+    .four {
+        font-size: 15rem;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .four {
+        font-size: 8rem;
+    }
+}
