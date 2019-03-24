@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { AreaChart, Area, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { genDaysArray, getDayIndex } from '../utils';
 
 class RoomGraph extends PureComponent {
     
@@ -19,33 +20,15 @@ class RoomGraph extends PureComponent {
         const {data} = this.props;
         if (data.length <= 0)
             return this.setState({data: [], loaded: true})
-        let result = [];
-        let tempDay = data[0][2];
-        let avg = 0;
-        let count = 0;
+        let result = genDaysArray();
         data.forEach(entry => {
-            const curDay = entry[2]
-            const time = entry[5]
-            console.log(curDay, tempDay, typeof time);
-            if (curDay === tempDay && typeof time === "number") {
-                avg += time;
-                count++;
-            } else if (curDay !== tempDay  && typeof time === "number") {
-                const obj = {
-                    name: tempDay,
-                    avg: (avg / count)
-                }
-                result.push(obj)
-                tempDay = curDay;
-                avg = time;
-                count = 1;
-            }
+            const day = entry[2];
+            const time = entry[5];
+            const i = getDayIndex(day.split(',')[0]);
+            console.log(day.split(','), result, i)
+            console.log(i)
+            result[i].avg += time;
         });
-        const obj = {
-            name: tempDay,
-            avg: (avg / count)
-        }
-        result.push(obj)
         this.setState({data: result, loaded: true})
     }
     
@@ -61,14 +44,15 @@ class RoomGraph extends PureComponent {
                     right: 30,
                     left: 30
             }}>
-                <CartesianGrid strokeDasharray="5 5" />
+                
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
                 <Legend />
                 <Area 
-                stroke="#a18cd1"
-                fill="#a18cd1"
+                stroke="#fcb4e8"
+                fill="#fcb4e8"
+                unit="minutes"
                 name="Average Time Spent (minutes)"
                 type="monotone" 
                 dataKey="avg" 
