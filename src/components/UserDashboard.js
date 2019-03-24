@@ -195,36 +195,36 @@ class UserDashboard extends Component {
                             open={!!sizeAnchor}
                             onClose={this.sizeClose}
                         >
-                            <MenuItem selected={sizeSelected == 0} onClick={() => this.selectSize(300, 0)}>300x300</MenuItem>
-                            <MenuItem selected={sizeSelected == 1} onClick={() => this.selectSize(500, 1)}>500x500</MenuItem>
-                            <MenuItem selected={sizeSelected == 2} onClick={() => this.selectSize(800, 2)}>800x800</MenuItem>
+                            <MenuItem selected={sizeSelected === 0} onClick={() => this.selectSize(300, 0)}>300x300</MenuItem>
+                            <MenuItem selected={sizeSelected === 1} onClick={() => this.selectSize(500, 1)}>500x500</MenuItem>
+                            <MenuItem selected={sizeSelected === 2} onClick={() => this.selectSize(800, 2)}>800x800</MenuItem>
                         </Menu>
                         <Menu id="color"
                             anchorEl={colorAnchor}
                             open={!!colorAnchor}
                             onClose={this.colorClose}
                         >
-                            <MenuItem selected={colorSelected == 0} onClick={() => this.selectColor('#9a81d4', 0)}>
+                            <MenuItem selected={colorSelected === 0} onClick={() => this.selectColor('#9a81d4', 0)}>
                                 <span className="color-box" style={{background: '#9a81d4'}}></span>
                                 Quick-Entry
                             </MenuItem>
-                            <MenuItem selected={colorSelected == 1} onClick={() => this.selectColor('#fc5c65', 1)}>
+                            <MenuItem selected={colorSelected === 1} onClick={() => this.selectColor('#fc5c65', 1)}>
                                 <span className="color-box" style={{background: '#fc5c65'}}></span>
                                 Fusion Red
                             </MenuItem>
-                            <MenuItem selected={colorSelected == 2} onClick={() => this.selectColor('#26de81', 2)}>
+                            <MenuItem selected={colorSelected === 2} onClick={() => this.selectColor('#26de81', 2)}>
                                 <span className="color-box" style={{background: '#26de81'}}></span>
                                 Grass Green
                             </MenuItem>
-                            <MenuItem selected={colorSelected == 3} onClick={() => this.selectColor('#3867d6', 3)}>
+                            <MenuItem selected={colorSelected === 3} onClick={() => this.selectColor('#3867d6', 3)}>
                                 <span className="color-box" style={{background: '#3867d6'}}></span>
                                 Royal Blue
                             </MenuItem>
-                            <MenuItem selected={colorSelected == 4} onClick={() => this.selectColor('#2d3436', 4)}>
+                            <MenuItem selected={colorSelected === 4} onClick={() => this.selectColor('#2d3436', 4)}>
                                 <span className="color-box" style={{background: '#2d3436'}}></span>
                                 Dracula
                             </MenuItem>
-                            <MenuItem selected={colorSelected == 5} onClick={() => this.selectColor('#e84393', 5)}>
+                            <MenuItem selected={colorSelected === 5} onClick={() => this.selectColor('#e84393', 5)}>
                                 <span className="color-box" style={{background: '#e84393'}}></span>
                                 Prunus Pink
                             </MenuItem>
