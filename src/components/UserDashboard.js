@@ -41,7 +41,6 @@ class UserDashboard extends Component {
     }
 
     mainmenuOpen = e => {
-        console.log(e);
         this.setState({mainmenu: e.currentTarget})
     }
 
@@ -161,7 +160,7 @@ class UserDashboard extends Component {
                         open={!!mainmenu}
                         onClose={this.mainmenuClose}
                     >
-                        <MenuItem onClick={this.logout}>Logout</MenuItem>
+                        <MenuItem selected={false} onClick={this.logout}>Logout</MenuItem>
                     </Menu>
                     <div>
                         <h4 className="gradient-text">Hi,</h4>
