@@ -13,7 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
 import CircularProgress from '@material-ui/core/CircularProgress'; 
 import { authMapStateToProps, getMUITheme } from '../utils';
-import { getHistory } from '../store/actions/user';
+import { getHistory, logoutUser } from '../store/actions/user';
 
 class UserDashboard extends Component {
 
@@ -25,7 +25,8 @@ class UserDashboard extends Component {
         size: 300,
         sizeSelected: 0,
         sizeAnchor: null,
-        historyData: []
+        historyData: [],
+        mainmenu: null
     }
 
     downloadImage = () => {
@@ -33,6 +34,19 @@ class UserDashboard extends Component {
         const downloadLink = document.querySelector("#qr-download");
 
         downloadLink.setAttribute('href', qrcanvas.toDataURL('image/png'));
+    }
+
+    logout = () => {
+        this.props.dispatch(logoutUser())
+    }
+
+    mainmenuOpen = e => {
+        console.log(e);
+        this.setState({mainmenu: e.currentTarget})
+    }
+
+    mainmenuClose = () => {
+        this.setState(({mainmenu: null}))
     }
 
     sizeSelect = e => {
@@ -93,7 +107,7 @@ class UserDashboard extends Component {
 
     render() {
         let {fullname, email, username, tecid} = this.props.user;
-        const {color, size, sizeAnchor, colorAnchor, colorSelected, sizeSelected, historyData, loading} = this.state;
+        const {color, size, sizeAnchor, colorAnchor, colorSelected, sizeSelected, historyData, loading, mainmenu} = this.state;
         const columns = [
             {
                 name: 'Room Name',
@@ -139,9 +153,16 @@ class UserDashboard extends Component {
         return (
             <div className="dashboard">
                 <nav>
-                    <IconButton style={{marginRight: 20}}>
+                    <IconButton onClick={this.mainmenuOpen} style={{marginRight: 20}}>
                         <MenuIcon />
                     </IconButton>
+                    <Menu
+                        anchorEl={mainmenu}
+                        open={!!mainmenu}
+                        onClose={this.mainmenuClose}
+                    >
+                        <MenuItem onClick={this.logout}>Logout</MenuItem>
+                    </Menu>
                     <div>
                         <h4 className="gradient-text">Hi,</h4>
                         <h1 className="gradient-text">{fullname}</h1>
