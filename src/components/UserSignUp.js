@@ -178,7 +178,7 @@ class UserSignUp extends Component {
                             name="password" 
                             value={password}
                             required
-                            placeholder="Strong Password"
+                            placeholder="Password must be at least 6 characters long and must contain a number."
                             autoComplete="new-password"
                             onChange={this.handleChange}/>
                         </label>
