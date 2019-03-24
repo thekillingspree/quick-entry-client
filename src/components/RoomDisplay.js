@@ -19,8 +19,8 @@ const RoomDisplay = props => {
                 <p>{roomnumber}</p>
             </div>
             <div className="bottom">
-                <span className="center vertical"><GroupIcon style={{marginRight: 10}}/>  {capacity}</span>
-                <span className="center vertical"><CurrentIcon style={{marginRight: 10}}/>  {current}</span>
+                <span className="center vertical"><GroupIcon />  {capacity}</span>
+                <span className="center vertical"><CurrentIcon />  {current}</span>
             </div>
         </div>
     )
