@@ -8,6 +8,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import { getRoomDetails } from '../store/actions/admin';
 import '../styles/details.css';
 import { getMUITheme } from '../utils';
+import RoomGraph from './RoomGraph';
 
 class RoomDetails extends Component {
 
@@ -21,6 +22,7 @@ class RoomDetails extends Component {
         const { uid, rid} = this.props.match.params;
         this.props.dispatch(getRoomDetails(uid, rid)).then((room) => {
             console.log(room);
+            let roomlist = []
             room.entrylist.forEach(r => {
                 let {user, exittime, timestamp } = r;
                 let temp = timestamp;
@@ -41,11 +43,13 @@ class RoomDetails extends Component {
                 
                 timestamp = moment(timestamp).format('hh:mm A');
                 console.log()
-                this.setState(prevState => ({
-                    data: [...prevState.data, [user.fullname, user.tecid, dateString, timestamp, exittime, timeSpent, temp]]
-                }));
+                roomlist.push([user.fullname, user.tecid, dateString, timestamp, exittime, timeSpent, temp])
             });
-            this.setState({room, loading: false})
+            this.setState(prevState => ({
+                data: [...prevState.data, ...roomlist],
+                room,
+                loading: false
+            }));
         }).catch((err) => {
             console.log(err)
             //TODO: HANDLE
@@ -115,6 +119,7 @@ class RoomDetails extends Component {
                     <h1 className="gradient-text">
                         { room.name }
                     </h1>
+                    <RoomGraph data={data} />
                     <div className="room-table">
                         <MuiThemeProvider theme={getMUITheme()}><MUIDataTable        
                             title='Entry List'
