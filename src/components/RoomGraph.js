@@ -27,8 +27,16 @@ class RoomGraph extends PureComponent {
             const i = getDayIndex(day.split(',')[0]);
             console.log(day.split(','), result, i)
             console.log(i)
-            result[i].avg += time;
+            result[i].sum += time;
+            result[i].count++;
         });
+        for (let i = 0; i < result.length; i++) {
+            if (result[i].count === 0) {
+                result[i].avg = 0;
+                continue;
+            }
+            result[i].avg = Math.ceil(result[i].sum / result[i].count);
+        }
         this.setState({data: result, loaded: true})
     }
     
@@ -53,7 +61,7 @@ class RoomGraph extends PureComponent {
                 stroke="#fcb4e8"
                 fill="#fcb4e8"
                 unit="minutes"
-                name="Average Time Spent (minutes)"
+                name="Average Time Spent"
                 type="monotone" 
                 dataKey="avg" 
                 activeDot={{r: 6}} />

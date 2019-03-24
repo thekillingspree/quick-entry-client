@@ -53,7 +53,7 @@ export const checkPw = password => {
 }
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-export const genDaysArray = () => days.map(name => ({name, avg: 0}));
+export const genDaysArray = () => days.map(name => ({name, sum: 0, count: 0}));
 
 export const getDayIndex = day => {
     return days.map(_ => _.slice(0, 3)).indexOf(day)
