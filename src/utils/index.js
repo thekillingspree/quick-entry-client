@@ -47,6 +47,11 @@ export const apiCall = (method, data, url) => {
     });
 }
 
+export const checkPw = password => {
+    const pattern = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.{6,})/
+    return pattern.test(password)
+}
+
 export const getMUITheme = () => {
     return createMuiTheme({
         overrides: {

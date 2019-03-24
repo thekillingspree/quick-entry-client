@@ -1,5 +1,5 @@
 import { SET_CURRENT_USER, SET_CURRENT_ADMIN } from '../types';
-import { apiCall, setAuthTokens } from '../../utils';
+import { apiCall, setAuthTokens, checkPw } from '../../utils';
 import { addError, removeError } from './errors';
 
 export const setCurrentUser = user => {
@@ -20,6 +20,11 @@ export const authUser = (user, url) => {
     const isAdmin = url.split('/')[1] === 'admin';
     return dispatch => {
         return new Promise ((resolve, reject) => {
+            if (!checkPw(user.password)) {
+                dispatch(addError('Password does not meet the requirements. Your password must be at least 6 characters and must contain a number.'));
+                reject();
+                return;
+            }
             apiCall('post', user, url).then((user) => {
                 console.log(user)
                 localStorage.setItem('auth', user.token);
