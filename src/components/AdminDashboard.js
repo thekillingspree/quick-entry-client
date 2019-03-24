@@ -3,31 +3,52 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import '../styles/dashboard.css';
-import Menu from '@material-ui/icons/Menu';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuIcon from '@material-ui/icons/Menu';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { getRoomsApi } from '../store/actions/admin';
+import { getRoomsApi, logoutAdmin } from '../store/actions/admin';
 import { ADMIN_GET_ROOMS, authMapStateToProps } from '../utils';
 import RoomDisplay from './RoomDisplay';
 
 class AdminDashboard extends Component {
+
+    state = {
+        menu: null
+    }
 
     componentDidMount() {
         const { _id } = this.props.admin.admin;
         this.props.dispatch(getRoomsApi(`${ADMIN_GET_ROOMS}?id=${_id['$oid']}`));
     }
 
+    openMenu = e => {
+        this.setState({menu: e.currentTarget});
+    }
+
+    closeMenu = () => {
+        this.setState({menu: null});
+    }
+
     render() {
         let { email, fname, username, _id} = this.props.admin.admin;
         _id = _id['$oid'];
-        const {history} = this.props;
+        const {menu} = this.state;
+        const {history, dispatch} = this.props;
         const {rooms} = this.props.admin;
         console.log(rooms, _id);
         return (
             <div className="dashboard">
                 <nav> 
-                    <IconButton style={{marginRight: 20}}>
-                        <Menu />
+                    <Menu
+                        anchorEl={menu}
+                        open={!!menu}
+                        onClose={this.closeMenu}>
+                        <MenuItem selected={false} onClick={() => dispatch(logoutAdmin())}>Logout</MenuItem>
+                    </Menu>
+                    <IconButton onClick={this.openMenu} style={{marginRight: 20}}>
+                        <MenuIcon />
                     </IconButton>
                     <div>
                         <h4 className="gradient-text">Hi,</h4>
