@@ -14,6 +14,7 @@ import AddIcon from '@material-ui/icons/AddCircleOutline';
 import CircularProgress from '@material-ui/core/CircularProgress'; 
 import { authMapStateToProps, getMUITheme } from '../utils';
 import { getHistory, logoutUser } from '../store/actions/user';
+import RoomGraph from './RoomGraph';
 
 class UserDashboard extends Component {
 
@@ -170,6 +171,7 @@ class UserDashboard extends Component {
                 </nav>
                 {loading && <div className="center all loading"><CircularProgress size={70} thickness={5} className="progress"/></div> } 
                 {!loading && <div className="room-table">
+                    <RoomGraph user data={historyData} />
                     <MuiThemeProvider theme={getMUITheme()}>
                         <MUIDataTable
                             title="Previous Entries"
