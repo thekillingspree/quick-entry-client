@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { AreaChart, Area, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { genDaysArray, getDayIndex } from '../utils';
+import { genDaysArray, getDayIndex, genChartDataAdmin } from '../utils';
 
 class RoomGraph extends PureComponent {
     
@@ -20,23 +20,8 @@ class RoomGraph extends PureComponent {
         const {data} = this.props;
         if (data.length <= 0)
             return this.setState({data: [], loaded: true})
-        let result = genDaysArray();
-        data.forEach(entry => {
-            const day = entry[2];
-            const time = entry[5];
-            const i = getDayIndex(day.split(',')[0]);
-            console.log(day.split(','), result, i)
-            console.log(i)
-            result[i].sum += time;
-            result[i].count++;
-        });
-        for (let i = 0; i < result.length; i++) {
-            if (result[i].count === 0) {
-                result[i].avg = 0;
-                continue;
-            }
-            result[i].avg = Math.ceil(result[i].sum / result[i].count);
-        }
+        const result = genChartDataAdmin(data);
+        console.log(result);
         this.setState({data: result, loaded: true})
     }
     

@@ -59,6 +59,26 @@ export const getDayIndex = day => {
     return days.map(_ => _.slice(0, 3)).indexOf(day)
 }
 
+export const genChartDataAdmin = data => {
+    let result = genDaysArray();
+    data.forEach(entry => {
+        const day = entry[2];
+        const time = entry[5];
+        const i = getDayIndex(day.split(',')[0]);
+        console.log(day.split(','), result, i)
+        console.log(i)
+        result[i].sum += time;
+        result[i].count++;
+    });
+    for (let i = 0; i < result.length; i++) {
+        if (result[i].count === 0) {
+            result[i].avg = 0;
+            continue;
+        }
+        result[i].avg = Math.ceil(result[i].sum / result[i].count);
+    }
+    return result;
+}
 export const getMUITheme = () => {
     return createMuiTheme({
         overrides: {
