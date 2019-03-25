@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createMuiTheme } from '@material-ui/core/styles';
-
+import _ from 'lodash';
 export const API_URL = 'https://quick-entry.herokuapp.com/api';
 
 export const USER_LOGIN = '/users/login';
@@ -79,6 +79,38 @@ export const genChartDataAdmin = data => {
     }
     return result;
 }
+
+//Chart logic for users.
+export const genChartDataUser = data => {
+    let result = []
+    console.log(data);
+    data.forEach(entry => {
+        const room = entry[0];
+        const time = entry[4];
+        const i = _.findIndex(result, ['name', room]);
+        if (i === -1) {
+            result.push({
+                name: room,
+                avg: time,
+                count: 1
+            });
+            console.log(result);
+        } else {
+            result[i].avg += time;
+            result[i].count++;
+        }
+    });
+    console.log(result);
+    for (let i = 0; i < result.length; i++) {
+        if (result[i].count === 0) {
+            result[i].avg = 0;
+            continue;
+        }
+        result[i].avg = Math.ceil(result[i].avg / result[i].count);
+    }
+    return result;
+}
+
 export const getMUITheme = () => {
     return createMuiTheme({
         overrides: {
