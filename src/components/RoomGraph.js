@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { AreaChart, Area, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { AreaChart, Area, ResponsiveContainer,  XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { genDaysArray, getDayIndex, genChartDataAdmin, genChartDataUser} from '../utils';
 
@@ -11,7 +11,7 @@ class RoomGraph extends PureComponent {
     }
 
     componentDidMount() {
-        const user = (!!this.props.user, 'user');
+        const user = (!!this.props.user);
         setTimeout(() => {
             if (user) {
                 this.calculateDataUser();
