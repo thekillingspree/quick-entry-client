@@ -57,3 +57,17 @@
     height: 20px;
     margin: 0 15px;
 }
+
+.dialog-top {
+    display: flex;
+    flex-direction: row;
+    padding-right: 20px;
+    justify-content: space-between;
+}
+
+.dialog-close {
+    width: 48px !important;
+    margin-top: 12px !important;
+    height: 48px !important;
+    color: "#a18cd1" !important;
+}

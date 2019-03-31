@@ -5,7 +5,13 @@ import moment from 'moment';
 import QRCode from 'qrcode.react';
 import IconButton from '@material-ui/core/IconButton';
 import '../styles/dashboard.css';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
 import MenuIcon from '@material-ui/icons/Menu';
+import CloseIcon from '@material-ui/icons/Close';
 import Menu from '@material-ui/core/Menu';
 import MUIDataTable from "mui-datatables";
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -27,7 +33,8 @@ class UserDashboard extends Component {
         sizeSelected: 0,
         sizeAnchor: null,
         historyData: [],
-        mainmenu: null
+        mainmenu: null,
+        dialog: false,
     }
 
     downloadImage = () => {
@@ -73,6 +80,14 @@ class UserDashboard extends Component {
         this.setState({color, colorSelected, colorAnchor: null});
     }
 
+    dialogOpen = () => {
+        this.setState({dialog: true, mainmenu: null});
+    }
+
+    dialogClose = () => {
+        this.setState({dialog: false});
+    }
+
     componentDidMount() {
         const { _id } = this.props.user;
         this.props.dispatch(getHistory(_id['$oid'])).then((history) => {
@@ -107,7 +122,7 @@ class UserDashboard extends Component {
 
     render() {
         let {fullname, email, username, tecid} = this.props.user;
-        const {color, size, sizeAnchor, colorAnchor, colorSelected, sizeSelected, historyData, loading, mainmenu} = this.state;
+        const {color, size, sizeAnchor, colorAnchor, colorSelected, sizeSelected, historyData, loading, mainmenu, dialog} = this.state;
         const columns = [
             {
                 name: 'Room Name',
@@ -162,6 +177,7 @@ class UserDashboard extends Component {
                         onClose={this.mainmenuClose}
                     >
                         <MenuItem selected={false} onClick={this.logout}>Logout</MenuItem>
+                        <MenuItem selected={false} onClick={this.dialogOpen}>Show QR Code</MenuItem>
                     </Menu>
                     <div>
                         <h4 className="gradient-text">Hi,</h4>
@@ -186,61 +202,77 @@ class UserDashboard extends Component {
                         />
                     </MuiThemeProvider>
                 </div>  }
+                <Dialog
+                    open={dialog}
+                    fullScreen={true}
+                    onClose={this.dialogClose}>
+                    <div className="dialog-top">
+                    <DialogTitle>Your QR Code</DialogTitle>
+                    <IconButton  className="dialog-close" onClick={this.dialogClose}><CloseIcon /></IconButton> 
+                    </div>
+                    
+                    <DialogContent className="center all vertical">
+                            <DialogContentText>Use this QRCode to enter any room.</DialogContentText>
+                            <div className="center all">
+                                <button className="button" onClick={this.sizeSelect}>Select Size</button>     
+                                <button className="button" onClick={this.colorClick}>Select Color</button>     
+                                <Menu id="size"
+                                    anchorEl={sizeAnchor}
+                                    open={!!sizeAnchor}
+                                    onClose={this.sizeClose}
+                                >
+                                    <MenuItem selected={sizeSelected === 0} onClick={() => this.selectSize(300, 0)}>300x300</MenuItem>
+                                    <MenuItem selected={sizeSelected === 1} onClick={() => this.selectSize(400, 1)}>400x400</MenuItem>
+                                    <MenuItem selected={sizeSelected === 2} onClick={() => this.selectSize(500, 2)}>500x500</MenuItem>
+                                </Menu>
+                                <Menu id="color"
+                                    anchorEl={colorAnchor}
+                                    open={!!colorAnchor}
+                                    onClose={this.colorClose}
+                                >
+                                    <MenuItem selected={colorSelected === 0} onClick={() => this.selectColor('#9a81d4', 0)}>
+                                        <span className="color-box" style={{background: '#9a81d4'}}></span>
+                                        Quick-Entry
+                                    </MenuItem>
+                                    <MenuItem selected={colorSelected === 1} onClick={() => this.selectColor('#fc5c65', 1)}>
+                                        <span className="color-box" style={{background: '#fc5c65'}}></span>
+                                        Fusion Red
+                                    </MenuItem>
+                                    <MenuItem selected={colorSelected === 2} onClick={() => this.selectColor('#26de81', 2)}>
+                                        <span className="color-box" style={{background: '#26de81'}}></span>
+                                        Grass Green
+                                    </MenuItem>
+                                    <MenuItem selected={colorSelected === 3} onClick={() => this.selectColor('#3867d6', 3)}>
+                                        <span className="color-box" style={{background: '#3867d6'}}></span>
+                                        Royal Blue
+                                    </MenuItem>
+                                    <MenuItem selected={colorSelected === 4} onClick={() => this.selectColor('#2d3436', 4)}>
+                                        <span className="color-box" style={{background: '#2d3436'}}></span>
+                                        Dracula
+                                    </MenuItem>
+                                    <MenuItem selected={colorSelected === 5} onClick={() => this.selectColor('#e84393', 5)}>
+                                        <span className="color-box" style={{background: '#e84393'}}></span>
+                                        Prunus Pink
+                                    </MenuItem>
+                                </Menu>
+                            </div>  
+                            <QRCode value={tecid}
+                            size={size}
+                            bgColor={"#ffffff"}
+                            fgColor={color}
+                            level={"L"}
+                            id='qr'
+                            includeMargin={true}
+                            renderAs={"canvas"} />
+                            <DialogActions>
+                                <a id="qr-download" download={`Quick-Entry-QRCode-${size}x${size}`} className="button" onClick={this.downloadImage}>Download</a>
+                            </DialogActions>
+                    </DialogContent>
+                </Dialog>
                 <div className="center all vertical">
                     <h3>Your QRCode</h3>
                     <p>Use this QRCode to enter any room.</p>
-                    <div className="center all">
-                        <button className="button" onClick={this.sizeSelect}>Select Size</button>     
-                        <button className="button" onClick={this.colorClick}>Select Color</button>     
-                        <Menu id="size"
-                            anchorEl={sizeAnchor}
-                            open={!!sizeAnchor}
-                            onClose={this.sizeClose}
-                        >
-                            <MenuItem selected={sizeSelected === 0} onClick={() => this.selectSize(300, 0)}>300x300</MenuItem>
-                            <MenuItem selected={sizeSelected === 1} onClick={() => this.selectSize(500, 1)}>500x500</MenuItem>
-                            <MenuItem selected={sizeSelected === 2} onClick={() => this.selectSize(800, 2)}>800x800</MenuItem>
-                        </Menu>
-                        <Menu id="color"
-                            anchorEl={colorAnchor}
-                            open={!!colorAnchor}
-                            onClose={this.colorClose}
-                        >
-                            <MenuItem selected={colorSelected === 0} onClick={() => this.selectColor('#9a81d4', 0)}>
-                                <span className="color-box" style={{background: '#9a81d4'}}></span>
-                                Quick-Entry
-                            </MenuItem>
-                            <MenuItem selected={colorSelected === 1} onClick={() => this.selectColor('#fc5c65', 1)}>
-                                <span className="color-box" style={{background: '#fc5c65'}}></span>
-                                Fusion Red
-                            </MenuItem>
-                            <MenuItem selected={colorSelected === 2} onClick={() => this.selectColor('#26de81', 2)}>
-                                <span className="color-box" style={{background: '#26de81'}}></span>
-                                Grass Green
-                            </MenuItem>
-                            <MenuItem selected={colorSelected === 3} onClick={() => this.selectColor('#3867d6', 3)}>
-                                <span className="color-box" style={{background: '#3867d6'}}></span>
-                                Royal Blue
-                            </MenuItem>
-                            <MenuItem selected={colorSelected === 4} onClick={() => this.selectColor('#2d3436', 4)}>
-                                <span className="color-box" style={{background: '#2d3436'}}></span>
-                                Dracula
-                            </MenuItem>
-                            <MenuItem selected={colorSelected === 5} onClick={() => this.selectColor('#e84393', 5)}>
-                                <span className="color-box" style={{background: '#e84393'}}></span>
-                                Prunus Pink
-                            </MenuItem>
-                        </Menu>
-                    </div>
-                    <QRCode value={tecid}
-                    size={size}
-                    bgColor={"#ffffff"}
-                    fgColor={color}
-                    level={"L"}
-                    id='qr'
-                    includeMargin={true}
-                    renderAs={"canvas"} />
-                    <a id="qr-download" download={`Quick-Entry-QRCode-${size}x${size}`} className="button" onClick={this.downloadImage}>Download</a>
+                
                 </div>  
             </div>
         )
